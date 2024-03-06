@@ -40,4 +40,8 @@ public class Comment { //강의댓글, user,lecture FK
     public Comment(Lecture lecture) {
         this.lecture = lecture;
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
