@@ -1,5 +1,6 @@
 package com.sparta.classapi.domain.lecture.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.classapi.domain.admin.entity.Tutor;
 import com.sparta.classapi.domain.lecture.entity.Lecture;
 import com.sparta.classapi.domain.lecture.entity.LectureCategory;
@@ -18,6 +19,7 @@ public class GetLectureListDto {
     private Integer price;
     private String description;
     private LectureCategory category;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
 

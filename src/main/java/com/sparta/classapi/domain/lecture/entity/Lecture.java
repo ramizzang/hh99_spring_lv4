@@ -1,6 +1,7 @@
 package com.sparta.classapi.domain.lecture.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.classapi.domain.comment.entity.Comment;
 import com.sparta.classapi.domain.admin.entity.Tutor;
 import jakarta.persistence.*;
@@ -40,9 +41,10 @@ public class Lecture {
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
     private LocalDateTime createdAt; //등록일
 
-    @OneToMany(mappedBy = "lecture", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
     @ManyToOne
@@ -59,9 +61,13 @@ public class Lecture {
         this.tutor = tutor;
     }
 
+
+    // 좋아요 추가
     public void incrementLikes(){
         this.likes++;
     }
+
+    // 좋아요 감소
     public void decrementLikes() {
         if (this.likes > 0) {
             this.likes--;

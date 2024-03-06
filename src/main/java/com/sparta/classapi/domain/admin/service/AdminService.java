@@ -19,16 +19,16 @@ public class AdminService {
     private final LectureRepository lectureRepository;
     private final TutorRepository tutorRepository;
 
-    public TutorResponseDto registerTutor(TutorRequestDto req) {
+    public TutorResponseDto registerTutor(TutorRequestDto requestDto) {
         // 강사 등록
-        Tutor tutor = tutorRepository.save(req.toEntity());
+        Tutor tutor = tutorRepository.save(requestDto.toEntity());
         return new TutorResponseDto(tutor);
     }
 
-    public LectureResponseDto registerLecture(LectureRequestDto req) {
-        Tutor tutor = tutorRepository.findById(req.getTutorId()).orElseThrow( //강사 정보 없으면 실패
+    public LectureResponseDto registerLecture(LectureRequestDto requestDto) {
+        Tutor tutor = tutorRepository.findById(requestDto.getTutorId()).orElseThrow( //강사 정보 없으면 실패
                 () -> new EntityNotFoundException("강사 정보가 없습니다."));
-        Lecture lecture = lectureRepository.save(req.toEntity(tutor));
+        Lecture lecture = lectureRepository.save(requestDto.toEntity(tutor));
         return new LectureResponseDto(lecture);
     }
 }

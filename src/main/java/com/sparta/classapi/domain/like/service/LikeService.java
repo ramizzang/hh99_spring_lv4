@@ -6,6 +6,7 @@ import com.sparta.classapi.domain.like.dto.LikeResponseDto;
 import com.sparta.classapi.domain.like.entity.Like;
 import com.sparta.classapi.domain.like.repository.LikeRepository;
 import com.sparta.classapi.domain.user.entity.User;
+import com.sparta.classapi.global.common.CommonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LikeService {
 
-    private final LectureRepository lectureRepository;
     private final LikeRepository likeRepository;
+    private final CommonService commonService;
 
     @Transactional
     public LikeResponseDto addLike(Long lectureId, User user) {
         // 보드정보, 유저정보 받아옴
-        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 강의 입니다.")
-        );
+        Lecture lecture = commonService.findLectureById(lectureId);
+
         // 중복 좋아요 확인
         if(!likeRepository.existsByLectureAndUser(lecture, user)){
             Like like = Like.builder()
