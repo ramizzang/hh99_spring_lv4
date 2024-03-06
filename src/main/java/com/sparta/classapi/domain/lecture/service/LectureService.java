@@ -1,6 +1,7 @@
 package com.sparta.classapi.domain.lecture.service;
 
 import com.sparta.classapi.domain.admin.dto.LectureResponseDto;
+import com.sparta.classapi.domain.lecture.dto.GetLectureListDto;
 import com.sparta.classapi.domain.lecture.dto.GetLectureResponseDto;
 import com.sparta.classapi.domain.lecture.entity.Lecture;
 import com.sparta.classapi.domain.lecture.entity.LectureCategory;
@@ -22,15 +23,15 @@ public class LectureService {
                 () -> new IllegalArgumentException("선택한 강의가 없습니다"));
 
         // 존재하는 강의 반환
-        return new GetLectureResponseDto(lecture,true);
+        return new GetLectureResponseDto(lecture);
     }
 
-    public List<GetLectureResponseDto> getLecturesByCategory(LectureCategory category, String sortBy, String select) {
+    public List<GetLectureListDto> getLecturesByCategory(LectureCategory category, String sortBy, String select) {
         // 카테고리에별 강의 가져오기
         List<Lecture> lectureList = lectureRepository.findAllByCategory(category); //전체 리스트 가져오기, 아무것도 선택안했을때 기본
         if(sortBy == null && select == null){//얘네값이 없으면
             //전체 리스트 반환
-            return lectureList.stream().map(lecture -> new GetLectureResponseDto(lecture, false)).collect(Collectors.toList());
+            return lectureList.stream().map(lecture -> new GetLectureListDto(lecture)).collect(Collectors.toList());
         }else{
             // 값이 있으면 정렬
             if(sortBy.equals("desc")){ // 내림차순
@@ -53,7 +54,7 @@ public class LectureService {
         }
 
 
-        return lectureList.stream().map(lecture -> new GetLectureResponseDto(lecture, false)).collect(Collectors.toList());
+        return lectureList.stream().map(lecture -> new GetLectureListDto(lecture)).collect(Collectors.toList());
 
     }
 }

@@ -12,17 +12,16 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-public class GetLectureResponseDto {
+public class GetLectureListDto {
     private Long id;
     private String title;
     private Integer price;
     private String description;
     private LectureCategory category;
     private LocalDateTime createdAt;
-    private List<TutorInfo> tutors;
 
 
-    public GetLectureResponseDto(Lecture lecture) { // response dto 하나로 처리하려고 tutor 정보 포함하는거 boolean 처리
+    public GetLectureListDto(Lecture lecture) { // response dto 하나로 처리하려고 tutor 정보 포함하는거 boolean 처리
         this.id = lecture.getId();
         this.title = lecture.getTitle();
         this.price = lecture.getPrice();
@@ -30,25 +29,6 @@ public class GetLectureResponseDto {
         this.category = lecture.getCategory();
         this.createdAt = lecture.getCreatedAt();
 
-        // 튜터 정보
-        this.tutors = List.of(new TutorInfo(lecture.getTutor()));
-    }
-
-
-    @Getter
-    @NoArgsConstructor
-    private static class TutorInfo { // 튜터 정보 담아주기
-        private String tutorName;
-        private Integer career;
-        private String company;
-        private String tutorDescription;
-
-        public TutorInfo(Tutor tutor) {
-            this.tutorName = tutor.getName();
-            this.career = tutor.getCareer();
-            this.company = tutor.getCompany();
-            this.tutorDescription = tutor.getDescription();
-        }
     }
 }
 

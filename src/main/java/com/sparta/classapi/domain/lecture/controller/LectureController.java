@@ -1,6 +1,7 @@
 package com.sparta.classapi.domain.lecture.controller;
 
 
+import com.sparta.classapi.domain.lecture.dto.GetLectureListDto;
 import com.sparta.classapi.domain.lecture.dto.GetLectureResponseDto;
 import com.sparta.classapi.domain.lecture.entity.LectureCategory;
 import com.sparta.classapi.domain.lecture.service.LectureService;
@@ -36,9 +37,9 @@ public class LectureController {
     // readLectureList get /  /api/lecture?category=&select=
     @GetMapping("lecture")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseDto<List<GetLectureResponseDto>> readLectureList(@RequestParam(name = "category") LectureCategory category,
-                                                                 @RequestParam(name = "sortBy", required = false) String sortBy, // 내림차순, 오름차순
-                                                                 @RequestParam(name = "sortOrder", required = false) String select) { // 선택한 것
+    public ResponseDto<List<GetLectureListDto>> readLectureList(@RequestParam(name = "category") LectureCategory category,
+                                                                @RequestParam(name = "sortBy", required = false) String sortBy, // 내림차순, 오름차순
+                                                                @RequestParam(name = "sortOrder", required = false) String select) { // 선택한 것
 
 
         return ResponseDto.success("조회가 완료됐습니다.",lectureService.getLecturesByCategory(category,sortBy,select));
