@@ -58,4 +58,13 @@ public class Lecture {
         this.category = category;
         this.tutor = tutor;
     }
+
+    public void incrementLikes(){
+        this.likes++;
+    }
+    public void decrementLikes() {
+        if (this.likes > 0) {
+            this.likes--;
+        }
+    }
 }
