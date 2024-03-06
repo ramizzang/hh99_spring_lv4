@@ -1,8 +1,9 @@
-package com.sparta.classapi.domain.tutor.entity;
+package com.sparta.classapi.domain.admin.entity;
 
 import com.sparta.classapi.domain.lecture.entity.Lecture;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,12 +28,22 @@ public class Tutor {
     @Column(nullable = false)
     private String company;
 
-    @Column(nullable = false)
-    private String phone;
+    @Column(name = "phone_number" , nullable = false)
+    private String phoneNumber;
 
     @Column(nullable = false)
     private String description;
 
     @OneToMany(mappedBy="tutor", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Lecture> lectureList = new ArrayList<>();
+
+
+    @Builder
+    public Tutor(String name, Integer career, String company, String phoneNumber, String description) {
+        this.name = name;
+        this.career = career;
+        this.company = company;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
+    }
 }
