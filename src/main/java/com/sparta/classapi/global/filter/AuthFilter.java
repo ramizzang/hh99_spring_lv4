@@ -61,7 +61,7 @@ public class AuthFilter extends OncePerRequestFilter { // 인증 및 인가처�
                 User user = userRepository.findByEmail(info.getSubject()).orElseThrow(() -> new NullPointerException("Not Found User"));
 
                 // 권한 설정(강사 등록, 강의등록)
-                if (StringUtils.hasText(url) && (url.equals("/lectures") || url.equals("/tutors"))) {
+                if (StringUtils.hasText(url) && (url.equals("/api/admin/lecture") || (url.equals("/api/admin/tutor")))){
                     // JWT 토큰에서 사용자의 ROLE을 가져옴
                     String auth = (String) info.get(JwtUtil.AUTHORIZATION_KEY);
 

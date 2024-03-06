@@ -51,12 +51,12 @@ public class JwtUtil {// jwt 관련된 기능을 모아둘거다!
     }
 
     // JWT 생성(생성한 토큰은 쿠키를 생성해 헤더에 담을 수도 있고, 그냥 헤더에 토큰 자체를 반환 할 수도 있다)
-    public String createToken(String username, UserRoleEnum role) {
+    public String createToken(String email, UserRoleEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(username) // 사용자 식별자값(ID)
+                        .setSubject(email) // 사용자 식별자값(ID)
                         .claim(AUTHORIZATION_KEY, role) // 사용자 권한 (key,value)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간 date.getTime() : 현재시간
                         .setIssuedAt(date) // 발급일
