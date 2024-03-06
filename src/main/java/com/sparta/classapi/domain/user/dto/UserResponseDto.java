@@ -31,4 +31,16 @@ public class UserResponseDto {
         }
     }
 
+    @Getter
+    @NoArgsConstructor
+    public static class LoginResponseDto{
+        private Long id;
+        private String email;
+
+        public LoginResponseDto(User user) {
+            this.id = user.getId();
+            this.email = user.getEmail();
+        }
+    }
+
 }

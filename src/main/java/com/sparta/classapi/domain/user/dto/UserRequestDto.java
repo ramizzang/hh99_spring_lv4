@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class UserRequestDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PACKAGE)
-    public static class SignUpReq{
+    public static class SignUpRequestDto{
         @Email(message = "이메일을 입력해주세요.")
         @NotBlank(message = "이메일을 입력해주세요.")
         private String email;
@@ -41,7 +41,7 @@ public class UserRequestDto {
         private String adminToken = ""; // 관리자일 때 토큰
 
         @Builder
-        public SignUpReq(String email, String password, Gender gender, String phoneNumber, String address, boolean admin) {
+        public SignUpRequestDto(String email, String password, Gender gender, String phoneNumber, String address, boolean admin) {
             this.email = email;
             this.password = password;
             this.gender = gender;
@@ -61,5 +61,26 @@ public class UserRequestDto {
                     .build();
         }
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PACKAGE)
+    public static class LoginRequestDto{
+
+        @NotBlank(message = "이메일을 입력해주세요.")
+        private String email;
+
+        @NotBlank(message = "비밀번호를 입력해주세요.")
+        private String password;
+
+
+        @Builder
+        public LoginRequestDto(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+
+    }
+
+
 
 }
