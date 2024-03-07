@@ -4,11 +4,11 @@ import com.sparta.classapi.domain.comment.dto.CommentRequestDto;
 import com.sparta.classapi.domain.comment.dto.CommentResponseDto;
 import com.sparta.classapi.domain.comment.dto.UpdateRequestDto;
 import com.sparta.classapi.domain.comment.service.CommentService;
-import com.sparta.classapi.domain.user.entity.User;
 import com.sparta.classapi.global.common.ResponseDto;
-import jakarta.servlet.http.HttpServletRequest;
+import com.sparta.classapi.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,9 +20,8 @@ public class CommentController {
     //댓글 leaveComment post comment
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDto<CommentResponseDto> leaveComment(@RequestBody CommentRequestDto requestDto, HttpServletRequest req) {
-        User user = (User) req.getAttribute("user");
-        return ResponseDto.success("댓글이 등록되었습니다.", commentService.leaveComment(requestDto, user));
+    public ResponseDto<CommentResponseDto> leaveComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails ) {
+        return ResponseDto.success("댓글이 등록되었습니다.", commentService.leaveComment(requestDto, userDetails.getUser()));
     }
 
     //    댓글수정 updateComment put comment/{commentId}
@@ -30,17 +29,15 @@ public class CommentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseDto<CommentResponseDto> updateComment(@PathVariable Long commentId,
                                                          @RequestBody UpdateRequestDto requestDto,
-                                                         HttpServletRequest req) throws IllegalAccessException {
-        User user = (User) req.getAttribute("user");
-        return ResponseDto.success("댓글이 수정되었습니다.", commentService.updateComment(commentId, requestDto, user));
+                                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+        return ResponseDto.success("댓글이 수정되었습니다.", commentService.updateComment(commentId, requestDto, userDetails.getUser()));
     }
 
 //    댓글삭제 deleteComment delete comment/{commentId}
     @DeleteMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseDto<Long> deleteComment(@PathVariable Long commentId,
-                                           HttpServletRequest req) throws IllegalAccessException {
-        User user = (User) req.getAttribute("user");
-        return ResponseDto.success("댓글이 삭제되었습니다.", commentService.deleteComment(commentId, user));
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) throws IllegalAccessException {
+        return ResponseDto.success("댓글이 삭제되었습니다.", commentService.deleteComment(commentId, userDetails.getUser()));
     }
 }

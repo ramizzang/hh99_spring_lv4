@@ -1,9 +1,9 @@
 package com.sparta.classapi.domain.user.controller;
 
-import com.sparta.classapi.domain.user.dto.UserRequestDto.SignUpRequestDto;
-import com.sparta.classapi.domain.user.dto.UserRequestDto.LoginRequestDto;
-import com.sparta.classapi.domain.user.dto.UserResponseDto.SignUpResponseDto;
-import com.sparta.classapi.domain.user.dto.UserResponseDto.LoginResponseDto;
+import com.sparta.classapi.domain.user.dto.SignUpRequestDto;
+import com.sparta.classapi.domain.user.dto.LoginRequestDto;
+import com.sparta.classapi.domain.user.dto.SignUpResponseDto;
+import com.sparta.classapi.domain.user.dto.LoginResponseDto;
 import com.sparta.classapi.domain.user.service.UserService;
 import com.sparta.classapi.global.common.ResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,14 +21,14 @@ public class UserController {
 
     @PostMapping("/signup")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseDto<SignUpResponseDto> signUp(@Valid @RequestBody SignUpRequestDto req){
-        return ResponseDto.success("회원가입이 완료되었습니다." ,userService.signUp(req));
+    public ResponseDto<SignUpResponseDto> signUp(@Valid @RequestBody SignUpRequestDto requestDto){
+        return ResponseDto.success("회원가입이 완료되었습니다." ,userService.signUp(requestDto));
     }
 
-    @PostMapping("/login")
-    @ResponseStatus(value = HttpStatus.OK)
-    public ResponseDto<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto req, HttpServletResponse res){
-        return ResponseDto.success("로그인 성공" ,userService.login(req,res));
-    }
+//    @PostMapping("/login")
+//    @ResponseStatus(value = HttpStatus.OK)
+//    public ResponseDto<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto requestDto, HttpServletResponse res){
+//        return ResponseDto.success("로그인 성공" ,userService.login(requestDto,res));
+//    }
 
 }
