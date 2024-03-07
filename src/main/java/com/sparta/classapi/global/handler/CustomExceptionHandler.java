@@ -38,4 +38,7 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    // security 예외처리
+
+
 }

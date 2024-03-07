@@ -16,6 +16,7 @@ import java.util.List;
 public class GetLectureListDto {
     private Long id;
     private String title;
+    private Integer like;
     private Integer price;
     private String description;
     private LectureCategory category;
@@ -26,6 +27,7 @@ public class GetLectureListDto {
     public GetLectureListDto(Lecture lecture) { // response dto 하나로 처리하려고 tutor 정보 포함하는거 boolean 처리
         this.id = lecture.getId();
         this.title = lecture.getTitle();
+        this.like = lecture.getLikes();
         this.price = lecture.getPrice();
         this.description = lecture.getDescription();
         this.category = lecture.getCategory();
