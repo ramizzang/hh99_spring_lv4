@@ -1,11 +1,11 @@
 package com.sparta.classapi.domain.lecture.service;
 
-import com.sparta.classapi.domain.admin.dto.LectureResponseDto;
 import com.sparta.classapi.domain.lecture.dto.GetLectureListDto;
 import com.sparta.classapi.domain.lecture.dto.GetLectureResponseDto;
 import com.sparta.classapi.domain.lecture.entity.Lecture;
 import com.sparta.classapi.domain.lecture.entity.LectureCategory;
 import com.sparta.classapi.domain.lecture.repository.LectureRepository;
+import com.sparta.classapi.global.common.CommonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LectureService {
     private final LectureRepository lectureRepository;
+    private final CommonService commonService;
 
     public GetLectureResponseDto getLecture(Long lectureId) {
         // 선택한 강의 가져오기, 존재하는 강의인지 확인
-        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
-                () -> new IllegalArgumentException("선택한 강의가 없습니다"));
+        Lecture lecture = commonService.findLectureById(lectureId);
 
         // 존재하는 강의 반환
         return new GetLectureResponseDto(lecture);

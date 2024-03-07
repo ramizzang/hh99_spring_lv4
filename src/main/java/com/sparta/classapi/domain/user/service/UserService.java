@@ -1,20 +1,20 @@
 package com.sparta.classapi.domain.user.service;
 
 
-import com.sparta.classapi.domain.user.dto.LoginRequestDto;
 import com.sparta.classapi.domain.user.dto.SignUpRequestDto;
-import com.sparta.classapi.domain.user.dto.LoginResponseDto;
 import com.sparta.classapi.domain.user.dto.SignUpResponseDto;
 import com.sparta.classapi.domain.user.entity.User;
 import com.sparta.classapi.domain.user.entity.UserRoleEnum;
 import com.sparta.classapi.domain.user.repository.UserRepository;
+import com.sparta.classapi.global.handler.exception.CustomApiException;
 import com.sparta.classapi.global.jwt.JwtUtil;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static com.sparta.classapi.global.handler.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class UserService {
         String email = requestDto.getEmail();
         Optional<User> checkEmail = userRepository.findByEmail(email);
         if(checkEmail.isPresent()){
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            throw new CustomApiException(EMAIL_DUPLICATION.getMessage());
         }
 
         // 사용자 권한 확인
@@ -43,11 +43,10 @@ public class UserService {
         if(requestDto.isAdmin()){
             if(!ADMIN_TOKEN.equals(requestDto.getAdminToken())){
                 // 관리자 암호 불일치
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+                throw new CustomApiException(ADMIN_TOKEN_MISMATCH.getMessage());
             }
             auth = UserRoleEnum.ADMIN;
         }
-
         // 사용자 등록, 권한이랑 암호화한 비밀번호 보내서 저장
         User user = userRepository.save(requestDto.toEntity(auth,password));
         return new SignUpResponseDto(user);
